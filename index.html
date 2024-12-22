@@ -49,7 +49,7 @@
         // APIエンドポイント
         //const apiUrl = `https://graph.oculus.com/7951375894910515/leaderboards?fields=entries{rank,user{name},score}&access_token=${accessToken}`;
         const apiUrl = `https://graph.oculus.com/7951375894910515/leaderboards?api_name=HIGH_SCORE&fields=entries{rank,user{name},score}&access_token=${accessToken}`;
-        // APIからリーダーボードエントリーを取得して表示
+         // APIからリーダーボードエントリーを取得して表示
         fetch(apiUrl)
             .then(response => response.json())
             .then(data => {
