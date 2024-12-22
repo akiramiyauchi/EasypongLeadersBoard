@@ -53,7 +53,7 @@
         fetch(apiUrl)
             .then(response => response.json())
             .then(data => {
-                const leaderboard = document.getElementById('HIGH_SCORE');
+                const leaderboard = document.getElementById('leaderboard');
                 leaderboard.innerHTML = ''; // 既存の行を削除
 
                 data.entries.forEach(entry => {
@@ -68,7 +68,7 @@
             })
             .catch(error => {
                 console.error('リーダーボードデータの取得に失敗:', error);
-                const leaderboard = document.getElementById('HIGH_SCORE');
+                const leaderboard = document.getElementById('leaderboard');
                 leaderboard.innerHTML = `
                     <tr>
                         <td colspan="3">データの取得に失敗しました。</td>
