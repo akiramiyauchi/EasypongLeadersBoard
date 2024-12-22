@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>リーダーボード</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+    <h1>Metaリーダーボード</h1>
+    <p>現在のリーダーボード情報:</p>
+    <table>
+        <thead>
+            <tr>
+                <th>並び順</th>
+                <th>書き込みポリシー</th>
+                <th>エントリー数</th>
+            </tr>
+        </thead>
+        <tbody id="leaderboard">
+            <tr>
+                <td colspan="3">データを取得中...</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        // Metaのアクセストークン
+        const accessToken = "OC|7951375894910515|a7fa72a764bb60aa20513e272fceeee3";
+
+        // APIエンドポイント
+        const apiUrl = `https://graph.oculus.com/7951375894910515/leaderboards?fields=sort_order,entry_write_policy,entry_count&access_token=${accessToken}`;
+
+        // APIからリーダーボードデータを取得して表示
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                const leaderboard = document.getElementById('leaderboard');
+                leaderboard.innerHTML = ''; // 既存の行を削除
+
+                data.data.forEach(entry => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${entry.sort_order}</td>
+                        <td>${entry.entry_write_policy}</td>
+                        <td>${entry.entry_count}</td>
+                    `;
+                    leaderboard.appendChild(row);
+                });
+            })
+            .catch(error => {
+                console.error('リーダーボードデータの取得に失敗:', error);
+                const leaderboard = document.getElementById('leaderboard');
+                leaderboard.innerHTML = `
+                    <tr>
+                        <td colspan="3">データの取得に失敗しました。</td>
+                    </tr>
+                `;
+            });
+    </script>
+</body>
+</html>
