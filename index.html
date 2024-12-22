@@ -26,13 +26,13 @@
 </head>
 <body>
     <h1>Metaリーダーボード</h1>
-    <p>現在のリーダーボード情報:</p>
+    <p>リーダーボードのエントリー内容:</p>
     <table>
         <thead>
             <tr>
-                <th>並び順</th>
-                <th>書き込みポリシー</th>
-                <th>エントリー数</th>
+                <th>順位</th>
+                <th>ユーザー名</th>
+                <th>スコア</th>
             </tr>
         </thead>
         <tbody id="leaderboard">
@@ -47,21 +47,21 @@
         const accessToken = "OC|7951375894910515|a7fa72a764bb60aa20513e272fceeee3";
 
         // APIエンドポイント
-        const apiUrl = `https://graph.oculus.com/7951375894910515/leaderboards?fields=sort_order,entry_write_policy,entry_count&access_token=${accessToken}`;
+        const apiUrl = `https://graph.oculus.com/7951375894910515/leaderboards?fields=entries{rank,user{name},score}&access_token=${accessToken}`;
 
-        // APIからリーダーボードデータを取得して表示
+        // APIからリーダーボードエントリーを取得して表示
         fetch(apiUrl)
             .then(response => response.json())
             .then(data => {
                 const leaderboard = document.getElementById('leaderboard');
                 leaderboard.innerHTML = ''; // 既存の行を削除
 
-                data.data.forEach(entry => {
+                data.entries.forEach(entry => {
                     const row = document.createElement('tr');
                     row.innerHTML = `
-                        <td>${entry.sort_order}</td>
-                        <td>${entry.entry_write_policy}</td>
-                        <td>${entry.entry_count}</td>
+                        <td>${entry.rank}</td>
+                        <td>${entry.user.name}</td>
+                        <td>${entry.score}</td>
                     `;
                     leaderboard.appendChild(row);
                 });
